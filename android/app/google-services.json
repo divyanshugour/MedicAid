@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1093267532597",
+    "project_id": "medic-aid-project",
+    "storage_bucket": "medic-aid-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1093267532597:android:4d77e01188e9be5d16fa7c",
+        "android_client_info": {
+          "package_name": "com.codesingers.medic_aid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1093267532597-oufok7unpg6nrqik4phpdbtmlo3lcom8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByi2at2J7JARPe0uSN6HggyqvMzeG3F7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1093267532597-oufok7unpg6nrqik4phpdbtmlo3lcom8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
