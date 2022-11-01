@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:medic_aid/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'loginuser.dart';
 
@@ -27,9 +26,10 @@ class _RegisterUserState extends State<RegisterUser> {
   String n = '';
   PhoneNumber number = PhoneNumber(isoCode: 'NG');
   TextEditingController name = TextEditingController();
-  TextEditingController btname = TextEditingController();
+  TextEditingController username = TextEditingController();
   TextEditingController number_controller= TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController confirmpassword = TextEditingController();
   static String sharedPreferenceUserLoggedInKey = "ISLOGGEDIN";
 
   static Future<bool> saveUserLoggedInSharedPreference(bool isUserLoggedIn) async{
@@ -47,27 +47,22 @@ class _RegisterUserState extends State<RegisterUser> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('RegisterUser',
-                style: GoogleFonts.dancingScript(fontWeight: FontWeight.bold,fontSize: 40),
-              ),
-              const SizedBox(height: 20.0,),
+              const SizedBox(height: 10.0,),
               TextField(
                 controller: name,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: "Name",
-                    labelStyle: GoogleFonts.dancingScript(fontWeight: FontWeight.bold,fontSize: 20),
-                    focusedBorder: const UnderlineInputBorder(
+                    focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.indigo),
                     )
                 ),
               ),
               const SizedBox(height: 20.0,),
               TextField(
-                controller: btname,
-                decoration: InputDecoration(
-                    labelText: "Bluetooth Name",
-                    labelStyle: GoogleFonts.dancingScript(fontWeight: FontWeight.bold,fontSize: 20),
-                    focusedBorder: const UnderlineInputBorder(
+                controller: username,
+                decoration: const InputDecoration(
+                    labelText: "Username",
+                    focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.indigo),
                     )
                 ),
@@ -91,10 +86,20 @@ class _RegisterUserState extends State<RegisterUser> {
               const SizedBox(height: 30.0,),
               TextField(
                 controller: password,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     labelText: "Password",
-                    labelStyle: GoogleFonts.dancingScript(fontWeight: FontWeight.bold,fontSize: 20),
-                    focusedBorder: const UnderlineInputBorder(
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.indigo),
+                    )
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 40.0,),
+              TextField(
+                controller: confirmpassword,
+                decoration: const InputDecoration(
+                    labelText: "Confirm Password",
+                    focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.indigo),
                     )
                 ),
@@ -104,17 +109,39 @@ class _RegisterUserState extends State<RegisterUser> {
               ElevatedButton(
                 onPressed: (){
                   setState(() {
-                    saveUserLoggedInSharedPreference(true);
-                    FirebaseFirestore.instance
-                        .collection('user_info').doc(name.text).set(
-                        {'bluetooth_name': btname.text,
-                          'password': password.text,
-                          'number': number_controller.text
-                        });
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const Home()),
-                    );
+                    if (confirmpassword.text == password.text){
+                      FirebaseFirestore.instance
+                          .collection('user_info').doc(username.text).set(
+                          {'name': name.text,
+                            'username': username.text,
+                            'password': password.text,
+                            'number': number_controller.text
+                          });
+                      Fluttertoast.showToast(
+                          msg: "User Registered Successfully",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.indigo,
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const LoginUser()),
+                      );
+                    }
+                    else{
+                      Fluttertoast.showToast(
+                          msg: "Password Not Matched",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.indigo,
+                          textColor: Colors.white,
+                          fontSize: 16.0
+                      );
+                    }
                   });
                 },
                 child: const Padding(
@@ -126,10 +153,8 @@ class _RegisterUserState extends State<RegisterUser> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Already have an account!",
-                    style: GoogleFonts.dancingScript(fontSize: 16),
-                  ),
+                  const Text(
+                    "Already have an account!"),
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(

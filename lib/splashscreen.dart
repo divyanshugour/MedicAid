@@ -1,10 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:medic_aid/home.dart';
+import 'package:medic_aid/homeuser.dart';
 import 'package:medic_aid/loginuser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
+
+import 'homelab.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -16,23 +17,35 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
-  static String sharedPreferenceUserLoggedInKey = "ISLOGGEDIN";
-  bool isLog = false;
+  static String sharedPreferenceUserLoggedInKeyUser = "ISLOGGEDINUSER";
+  static String sharedPreferenceUserLoggedInKeyLab = "ISLOGGEDINLAB";
+  bool isLogUser = false;
+  bool isLogLab = false;
 
   @override
   void initState(){
     super.initState();
     initialise();
-    getUserLoggedInSharedPreference().then((value) =>
+    getUserLoggedInSharedPreferenceUser().then((value) =>
         setState(() {
-          isLog = value!;
+          isLogUser = value!;
+        }),
+    );
+    getUserLoggedInSharedPreferenceLab().then((value) =>
+        setState(() {
+          isLogLab = value!;
         }),
     );
   }
 
-  static Future<bool?> getUserLoggedInSharedPreference() async{
+  static Future<bool?> getUserLoggedInSharedPreferenceUser() async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getBool(sharedPreferenceUserLoggedInKey);
+    return preferences.getBool(sharedPreferenceUserLoggedInKeyUser);
+  }
+
+  static Future<bool?> getUserLoggedInSharedPreferenceLab() async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(sharedPreferenceUserLoggedInKeyLab);
   }
 
   Future<void> initialise() async {
@@ -42,19 +55,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return SplashScreenView(
-      navigateRoute: isLog ? const Home() : const LoginUser(),
+      navigateRoute: isLogUser || isLogLab ? isLogUser ? const HomeUser() : const HomeLab() : const LoginUser(),
       duration: 5000,
       imageSize: 250,
       imageSrc: "assets/logo.png",
-      text: "MedicAid",
-      textType: TextType.ColorizeAnimationText,
-      textStyle: GoogleFonts.dancingScript(fontWeight: FontWeight.bold,fontSize: 40),
-      colors: const [
-        Color(0xff0f3570),
-        Color(0xff0f3570),
-        Colors.white,
-        Color(0xff0f3570),
-      ],
       backgroundColor: Colors.white,
     );
   }

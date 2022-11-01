@@ -1,12 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:medic_aid/homelab.dart';
 import 'package:medic_aid/registeruser.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'home.dart';
 import 'loginuser.dart';
 
 class LoginLab extends StatefulWidget {
@@ -18,13 +15,20 @@ class LoginLab extends StatefulWidget {
 
 class _LoginLabState extends State<LoginLab> {
 
-  TextEditingController name = TextEditingController();
+  TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
-  static String sharedPreferenceUserLoggedInKey = "ISLOGGEDIN";
+  static String sharedPreferenceUserLoggedInKeyLab = "ISLOGGEDINLAB";
+  static String sharedPreferenceUserLabKey = "USERLABKEY";
 
-  static Future<bool> saveUserLoggedInSharedPreference(bool isUserLoggedIn) async{
+
+  static Future<bool> saveUserLabSharedPreference(String userName) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.setBool(sharedPreferenceUserLoggedInKey, isUserLoggedIn);
+    return await preferences.setString(sharedPreferenceUserLabKey, userName);
+  }
+
+  static Future<bool> saveUserLoggedInSharedPreferenceLab(bool isUserLoggedIn) async{
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return await preferences.setBool(sharedPreferenceUserLoggedInKeyLab, isUserLoggedIn);
   }
 
   @override
@@ -37,13 +41,15 @@ class _LoginLabState extends State<LoginLab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/lab.gif',height: 330,),
+              const SizedBox(height: 20.0,),
+              Image.asset('assets/lab.gif',height: 300,),
+              const SizedBox(height: 20.0,),
+              const SizedBox(height: 20.0,),
               TextField(
-                controller: name,
-                decoration: InputDecoration(
+                controller: username,
+                decoration: const InputDecoration(
                     labelText: "Name",
-                    labelStyle: GoogleFonts.dancingScript(fontWeight: FontWeight.bold,fontSize: 20),
-                    focusedBorder: const UnderlineInputBorder(
+                    focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.indigo),
                     )
                 ),
@@ -53,7 +59,6 @@ class _LoginLabState extends State<LoginLab> {
                 controller: password,
                 decoration: InputDecoration(
                     labelText: "Password",
-                    labelStyle: GoogleFonts.dancingScript(fontWeight: FontWeight.bold,fontSize: 20),
                     focusedBorder: const UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.indigo),
                     )
@@ -63,12 +68,8 @@ class _LoginLabState extends State<LoginLab> {
               const SizedBox(height: 40.0,),
               ElevatedButton(
                 onPressed: (){
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const HomeLab()),
-                  );
                   FirebaseFirestore.instance
-                      .collection('user_info').where("password", isEqualTo: password.text).get().then((snapshot){
+                      .collection('lab_info').where("username", isEqualTo: username.text).where("password", isEqualTo: password.text,).get().then((snapshot){
                     if (snapshot.docs.isEmpty){
                       Fluttertoast.showToast(
                           msg: "Credentials are not correct !",
@@ -80,14 +81,14 @@ class _LoginLabState extends State<LoginLab> {
                           fontSize: 16.0
                       );
                     }else{
-                      saveUserLoggedInSharedPreference(true);
+                      saveUserLabSharedPreference(username.text);
+                      saveUserLoggedInSharedPreferenceLab(true);
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => const Home()),
+                        MaterialPageRoute(builder: (context) => const HomeLab()),
                       );
                     }
                   });
-
                 },
                 child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 50),
@@ -95,7 +96,29 @@ class _LoginLabState extends State<LoginLab> {
                 ),
               ),
               const SizedBox(height: 20.0,),
+              const SizedBox(height: 20.0,),
+              const SizedBox(height: 20.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an lab account?"),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const RegisterUser()),
+                      );
+                    },
+                    child: const Text("Contact Us",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),),
 
+                  )
+                ],
+              )
             ],
           ),
         ),

@@ -22,10 +22,16 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
+
+    aaptOptions {
+        noCompress 'tflite'
+        noCompress 'lite'
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -37,7 +43,7 @@ android {
         applicationId "com.codesingers.medic_aid"
         minSdkVersion 21
         multiDexEnabled true
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -53,12 +59,6 @@ android {
 
 flutter {
     source '../..'
-}
-plugins {
-    id 'com.android.application'
-
-    // Add the Google services Gradle plugin
-    id 'com.google.gms.google-services'
 }
 
 dependencies {
