@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:medic_aid/mypatients.dart';
+import 'package:medic_aid/patient.dart';
+import 'package:popup_card/popup_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -39,10 +42,28 @@ class _MyLabsState extends State<MyLabs> {
         title: const Text('MedicAid'),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff0f3570),
-        onPressed: () {},
-        child: const Icon(Icons.add),
+      floatingActionButton: PopupItemLauncher(
+        tag: 'test',
+        child: Material(
+          color: const Color(0xff0f3570),
+          elevation: 2,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+          child: const Icon(
+            Icons.add_rounded,
+            size: 56,
+            color: Colors.white
+          ),
+        ),
+        popUp: PopUpItem(
+          padding: EdgeInsets.all(16),
+          color: Colors.white,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+          elevation: 2,
+          tag: 'test',
+          child: PopUpItemBody(),
+        ),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _usersStream,
@@ -52,7 +73,7 @@ class _MyLabsState extends State<MyLabs> {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return const Center(child: Text("Loading..."));
           }
           return ListView(
             children: snapshot.data!.docs.map((DocumentSnapshot document) {
@@ -60,7 +81,7 @@ class _MyLabsState extends State<MyLabs> {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
-                  child: data['username']==username && data['my_labs']!=null ? ListView.builder(
+                  child: data['username']==username ? data['my_labs']!=null  ? ListView.builder(
                     shrinkWrap: true,
                     itemCount: data['my_labs'].length,
                     itemBuilder: (BuildContext context, int index) {
@@ -71,12 +92,41 @@ class _MyLabsState extends State<MyLabs> {
                         title: Text(data['my_labs'][index])
                       );
                     },
-                  ): Container(),
+                  ): const Center(child: Text("No Lab Added")) : const SizedBox(height: 0,),
                 ),
               );
             }).toList(),
           );
         },
+      ),
+    );
+  }
+}
+
+
+class PopUpItemBody extends StatelessWidget {
+  const PopUpItemBody({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const TextField(
+            decoration: InputDecoration(
+              hintText: 'New Lab',
+              border: InputBorder.none,
+            ),
+            cursorColor: Colors.white,
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const Text('Add'),
+          ),
+        ],
       ),
     );
   }

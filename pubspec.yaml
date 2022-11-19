@@ -37,13 +37,14 @@ dependencies:
   splash_screen_view:
   firebase_core:
   cloud_firestore: ^4.0.1
+  firebase_storage:
   intl_phone_number_input:
   fluttertoast:
   url_launcher:
   shared_preferences:
   image_picker:
-#  tflite: ^1.1.1
-  flutter_tflite: ^1.0.1
+  popup_card: ^0.1.0
+  tflite:
   path_provider:
 
 

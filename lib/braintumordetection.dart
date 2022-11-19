@@ -1,11 +1,7 @@
 import 'dart:io';
-import 'package:flutter_tflite/flutter_tflite.dart';
+import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-// import 'package:tflite/tflite.dart';
-
-
-
 
 class BrainTumor extends StatefulWidget {
   const BrainTumor({Key? key}) : super(key: key);
@@ -110,7 +106,6 @@ abstract class PickImage {
     await ImagePicker().getImage(source: ImageSource.gallery);
     if (selectedImage == null) return null;
     File image = File(selectedImage.path);
-
     return image;
   }
 }

@@ -115,7 +115,10 @@ class _RegisterUserState extends State<RegisterUser> {
                           {'name': name.text,
                             'username': username.text,
                             'password': password.text,
-                            'number': number_controller.text
+                            'number': number_controller.text,
+                            'my_labs': [],
+                            'labs_docs': [],
+                            'my_docs': [],
                           });
                       Fluttertoast.showToast(
                           msg: "User Registered Successfully",
