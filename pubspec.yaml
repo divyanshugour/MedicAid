@@ -46,6 +46,8 @@ dependencies:
   popup_card: ^0.1.0
   tflite:
   path_provider:
+  carousel_images: ^1.1.2
+
 
 
 dev_dependencies:

@@ -62,7 +62,7 @@ class _MyLabsState extends State<MyLabs> {
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
           elevation: 2,
           tag: 'test',
-          child: PopUpItemBody(),
+          child: PopUpItemBody(username),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -104,10 +104,16 @@ class _MyLabsState extends State<MyLabs> {
 }
 
 
-class PopUpItemBody extends StatelessWidget {
-  const PopUpItemBody({
-    Key? key,
-  }) : super(key: key);
+class PopUpItemBody extends StatefulWidget {
+  final String username;
+  const PopUpItemBody(this.username, {Key? key,}) : super(key: key);
+
+  @override
+  State<PopUpItemBody> createState() => _PopUpItemBodyState();
+}
+
+class _PopUpItemBodyState extends State<PopUpItemBody> {
+  TextEditingController labname = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -115,15 +121,23 @@ class PopUpItemBody extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const TextField(
-            decoration: InputDecoration(
-              hintText: 'New Lab',
+          TextField(
+            controller: labname,
+            decoration: const InputDecoration(
+              hintText: 'Enter Lab Name',
               border: InputBorder.none,
             ),
             cursorColor: Colors.white,
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                print(widget.username);
+                FirebaseFirestore.instance
+                    .collection('user_info').doc(widget.username).update({"my_labs": FieldValue.arrayUnion([labname.text])});
+                labname.text = '';
+              });
+            },
             child: const Text('Add'),
           ),
         ],
