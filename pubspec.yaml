@@ -44,7 +44,7 @@ dependencies:
   shared_preferences:
   image_picker:
   popup_card: ^0.1.0
-  tflite:
+  flutter_tflite:
   path_provider:
   carousel_images: ^1.1.2
 
