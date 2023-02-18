@@ -2,15 +2,17 @@
 
 Major Project - MedicAid
 
-## Getting Started
+![image](https://user-images.githubusercontent.com/78845422/219849653-da4ecb7d-df16-41ab-84f2-c1e39c1d8c13.png)
 
-This project is a starting point for a Flutter application.
+![image](https://user-images.githubusercontent.com/78845422/219849674-38c4dbac-0798-4d82-aa59-8860f7fac405.png)
 
-A few resources to get you started if this is your first Flutter project:
+![image](https://user-images.githubusercontent.com/78845422/219849687-ade1e05a-88f6-4f63-9513-524b192dc324.png)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+![image](https://user-images.githubusercontent.com/78845422/219849700-98196ecd-98be-4bef-83a9-1c6326b11c67.png)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![image](https://user-images.githubusercontent.com/78845422/219849707-e3b0bb96-b56e-4012-a4c1-176a7514bafe.png)
+
+![image](https://user-images.githubusercontent.com/78845422/219849714-133842cf-579a-43b8-8213-43e61b2fb371.png)
+
+![image](https://user-images.githubusercontent.com/78845422/219849718-f300c6a7-dbd0-4790-bd20-55311925d8f6.png)
+
