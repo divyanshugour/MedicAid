@@ -2,7 +2,7 @@
 
 Major Project - MedicAid
 
-![image](https://user-images.githubusercontent.com/78845422/219849653-da4ecb7d-df16-41ab-84f2-c1e39c1d8c13.png)
+# ![image](https://user-images.githubusercontent.com/78845422/219849653-da4ecb7d-df16-41ab-84f2-c1e39c1d8c13.png)
 
 ![image](https://user-images.githubusercontent.com/78845422/219849674-38c4dbac-0798-4d82-aa59-8860f7fac405.png)
 
